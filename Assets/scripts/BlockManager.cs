@@ -25,7 +25,7 @@ public class BlockManager : SingletonMonoBehaviour<BlockManager>
     IEnumerator InitBlocks()
     {
         blocks = new ArrayList();
-        box.SetShakeAnimationListener(new BoxShakeAnimationListener());
+        box.SetShakeAnimationListener((box) => box.AnimationReset());
         for (int i = 1; i <= BLOCK_COUNT; i++)
         {
             if(i%5 == 0) { box.AnimationStart(); }
@@ -43,14 +43,6 @@ public class BlockManager : SingletonMonoBehaviour<BlockManager>
     {
         Animator animator = box.GetComponent<Animator>();
         animator.SetBool("shake", false);
-    }
-
-    class BoxShakeAnimationListener : Box.ShakeAnimationListener
-    {
-        public void OnAnimationFinished(Box box)
-        {
-            box.AnimationReset();
-        }
     }
 
 }

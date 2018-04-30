@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : MonoBehaviour {
+public delegate void OnShakeFinished(Box box);
 
+public class Box : MonoBehaviour {
     Animator animator;
-    ShakeAnimationListener shakeListener;
+    OnShakeFinished onAnimationFinished;
 	// Use this for initialization
 	void Start () {
         animator = GetComponent<Animator>();
@@ -16,9 +17,9 @@ public class Box : MonoBehaviour {
 		
 	}
 
-    public void SetShakeAnimationListener(ShakeAnimationListener listener)
+    public void SetShakeAnimationListener(OnShakeFinished _listener)
     {
-        shakeListener = listener;
+        onAnimationFinished = _listener;
     }
 
     public void AnimationStart()
@@ -33,16 +34,6 @@ public class Box : MonoBehaviour {
 
     public void OnAnimationFinished()
     {
-        if(shakeListener != null)
-        {
-            shakeListener.OnAnimationFinished(this);
-        }
+        onAnimationFinished(this);
     }
-
-    public interface ShakeAnimationListener
-    {
-        void OnAnimationFinished(Box box);
-    }
-
-
 }
